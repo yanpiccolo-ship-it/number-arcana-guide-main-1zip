@@ -10,6 +10,7 @@ interface ProtectedRouteProps {
 
 export const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps) => {
   const { user, isAdmin, isLoading } = useAuth();
+  const hasGatewayAccess = sessionStorage.getItem('admin_access') === 'true';
 
   if (isLoading) {
     return (
@@ -19,11 +20,13 @@ export const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRout
     );
   }
 
-  if (!user) {
-    return <Navigate to="/admin/login" replace />;
+  // Allow access if they have the gateway session, even if not logged into Supabase yet
+  // Or if they are a logged-in admin
+  if (!hasGatewayAccess && !user) {
+    return <Navigate to="/admin-gateway" replace />;
   }
 
-  if (requireAdmin && !isAdmin) {
+  if (requireAdmin && !isAdmin && !hasGatewayAccess) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
