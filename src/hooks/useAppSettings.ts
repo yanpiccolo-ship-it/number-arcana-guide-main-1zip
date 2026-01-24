@@ -35,15 +35,29 @@ export const useUpdateSetting = () => {
   
   return useMutation({
     mutationFn: async ({ key, value }: { key: string; value: string }) => {
-      const { data, error } = await (supabase as any)
+      // First try to update
+      const { data: updateData, error: updateError } = await (supabase as any)
         .from('app_settings')
-        .update({ setting_value: value })
+        .update({ setting_value: value, updated_at: new Date().toISOString() })
         .eq('setting_key', key)
         .select()
-        .single();
+        .maybeSingle();
       
-      if (error) throw error;
-      return data as AppSetting;
+      if (updateError) throw updateError;
+      
+      // If no rows were updated, it might not exist, so try to insert
+      if (!updateData) {
+        const { data: insertData, error: insertError } = await (supabase as any)
+          .from('app_settings')
+          .insert({ setting_key: key, setting_value: value, setting_type: 'text' })
+          .select()
+          .single();
+        
+        if (insertError) throw insertError;
+        return insertData as AppSetting;
+      }
+      
+      return updateData as AppSetting;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['app_settings'] });

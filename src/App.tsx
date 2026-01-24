@@ -12,6 +12,7 @@ import Index from "./pages/Index";
 import Admin from "./pages/Admin";
 import AdminLogin from "./pages/AdminLogin";
 import AdminGateway from "./pages/AdminGateway";
+import PartnerPanel from "./pages/PartnerPanel";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -45,6 +46,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/admin-gateway" element={<AdminGateway />} />
+            <Route path="/partner-panel" element={<PartnerPanel />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route
               path="/admin"
