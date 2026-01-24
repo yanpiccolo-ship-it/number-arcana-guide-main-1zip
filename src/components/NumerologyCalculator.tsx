@@ -341,6 +341,12 @@ export const NumerologyCalculator = () => {
           </div>
         </section>
       )}
+      {/* Footer Branding */}
+      <footer className="mt-8 pt-6 border-t border-border/30 text-center pb-4">
+        <p className="text-[10px] text-muted-foreground font-serif italic tracking-wider">
+          Design by Just Bee Brand Agency
+        </p>
+      </footer>
     </div>
   );
 };
