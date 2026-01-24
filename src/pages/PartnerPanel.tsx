@@ -14,6 +14,28 @@ const PartnerPanel = () => {
   const { data: settings, isLoading } = useAppSettings();
   const updateSetting = useUpdateSetting();
   const [isSaving, setIsSaving] = useState(false);
+  
+  // Local state for the form fields
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    price: '',
+    currency: '',
+    url: ''
+  });
+
+  // Sync settings to local state when loaded
+  React.useEffect(() => {
+    if (settings) {
+      setFormData({
+        title: settings.find(s => s.setting_key === 'branding_app_name')?.setting_value || '',
+        description: '', // We don't have a specific description setting yet, could add it
+        price: settings.find(s => s.setting_key === 'premium_price')?.setting_value || '',
+        currency: settings.find(s => s.setting_key === 'premium_currency')?.setting_value || '',
+        url: settings.find(s => s.setting_key === 'premium_checkout_url')?.setting_value || ''
+      });
+    }
+  }, [settings]);
 
   // Check if gateway session is active
   React.useEffect(() => {
@@ -26,8 +48,12 @@ const PartnerPanel = () => {
     e.preventDefault();
     setIsSaving(true);
     try {
-      // In a real multi-tenant scenario, we'd update specific license settings.
-      // For now, we update the global branding settings as requested for the prototype.
+      await Promise.all([
+        updateSetting.mutateAsync({ key: 'branding_app_name', value: formData.title }),
+        updateSetting.mutateAsync({ key: 'premium_price', value: formData.price }),
+        updateSetting.mutateAsync({ key: 'premium_currency', value: formData.currency }),
+        updateSetting.mutateAsync({ key: 'premium_checkout_url', value: formData.url }),
+      ]);
       toast.success('Configuración guardada correctamente');
     } catch (error) {
       toast.error('Error al guardar los cambios');
@@ -82,11 +108,24 @@ const PartnerPanel = () => {
             <CardContent className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="title">Título del Recurso</Label>
-                <Input id="title" placeholder="Ej: Mi Calculadora Astral" className="border-gray-200 focus:border-[#C5A021] focus:ring-[#C5A021]" />
+                <Input 
+                  id="title" 
+                  value={formData.title}
+                  onChange={(e) => setFormData({...formData, title: e.target.value})}
+                  placeholder="Ej: Mi Calculadora Astral" 
+                  className="border-gray-200 focus:border-[#C5A021] focus:ring-[#C5A021]" 
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="description">Descripción</Label>
-                <Textarea id="description" placeholder="Explica de qué trata tu herramienta..." className="border-gray-200 focus:border-[#C5A021] focus:ring-[#C5A021]" rows={4} />
+                <Textarea 
+                  id="description" 
+                  value={formData.description}
+                  onChange={(e) => setFormData({...formData, description: e.target.value})}
+                  placeholder="Explica de qué trata tu herramienta..." 
+                  className="border-gray-200 focus:border-[#C5A021] focus:ring-[#C5A021]" 
+                  rows={4} 
+                />
               </div>
             </CardContent>
           </Card>
@@ -100,16 +139,36 @@ const PartnerPanel = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="price">Precio del Informe (PDF)</Label>
-                  <Input id="price" type="number" placeholder="Ej: 29.99" className="border-gray-200 focus:border-[#C5A021] focus:ring-[#C5A021]" />
+                  <Input 
+                    id="price" 
+                    type="number" 
+                    value={formData.price}
+                    onChange={(e) => setFormData({...formData, price: e.target.value})}
+                    placeholder="Ej: 29.99" 
+                    className="border-gray-200 focus:border-[#C5A021] focus:ring-[#C5A021]" 
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="currency">Moneda</Label>
-                  <Input id="currency" placeholder="Ej: USD" className="border-gray-200 focus:border-[#C5A021] focus:ring-[#C5A021]" />
+                  <Input 
+                    id="currency" 
+                    value={formData.currency}
+                    onChange={(e) => setFormData({...formData, currency: e.target.value})}
+                    placeholder="Ej: USD" 
+                    className="border-gray-200 focus:border-[#C5A021] focus:ring-[#C5A021]" 
+                  />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="url">URL de Pago / Redirección</Label>
-                <Input id="url" type="url" placeholder="https://tu-checkout.com/..." className="border-gray-200 focus:border-[#C5A021] focus:ring-[#C5A021]" />
+                <Input 
+                  id="url" 
+                  type="url" 
+                  value={formData.url}
+                  onChange={(e) => setFormData({...formData, url: e.target.value})}
+                  placeholder="https://tu-checkout.com/..." 
+                  className="border-gray-200 focus:border-[#C5A021] focus:ring-[#C5A021]" 
+                />
               </div>
             </CardContent>
           </Card>
