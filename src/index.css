@@ -2,34 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600&display=swap');
 
 @layer base {
   :root {
-    /* Minimalist Black & White Palette */
+    /* Fatal White Bordeaux Palette */
     --background: 0 0% 100%;
     --foreground: 0 0% 10%;
 
-    --card: 0 0% 98%;
-    --card-foreground: 0 0% 10%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
-
-    /* Black primary */
-    --primary: 0 0% 10%;
+    --primary: 345 100% 25%; /* Bordeaux #800020 approx */
     --primary-foreground: 0 0% 100%;
 
-    /* Light grey */
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 10%;
-
-    /* Muted grey */
-    --muted: 0 0% 92%;
-    --muted-foreground: 0 0% 45%;
-
-    /* Matte Gold accent ONLY for Calculate button */
-    --accent: 40 50% 56%;
+    --accent: 345 100% 25%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 65% 50%;
@@ -119,7 +103,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Playfair Display', serif;
     @apply font-medium tracking-tight;
   }
 }
@@ -175,15 +159,15 @@
   }
 
   .btn-calculate {
-    background-color: #C5A059;
+    background-color: #800020;
     @apply text-white font-medium px-8 py-3 rounded-lg transition-all duration-300;
-    box-shadow: 0 4px 20px -4px rgba(197, 160, 89, 0.4);
+    box-shadow: 0 4px 20px -4px rgba(128, 0, 32, 0.4);
   }
 
   .btn-calculate:hover {
-    background-color: #B08D4A;
+    background-color: #600018;
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px -4px rgba(197, 160, 89, 0.5);
+    box-shadow: 0 8px 30px -4px rgba(128, 0, 32, 0.5);
   }
 
   .language-toggle {
