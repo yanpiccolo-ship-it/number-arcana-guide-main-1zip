@@ -45,10 +45,10 @@ const SettingsPanel = ({ settings, updateSetting }: { settings: AppSetting[] | u
   const handleSave = async (key: string) => {
     try {
       await updateSetting.mutateAsync({ key, value: editValue });
-      toast({ title: 'Setting updated successfully' });
+      toast({ title: 'Configuración actualizada' });
       setEditingKey(null);
     } catch (error) {
-      toast({ title: 'Failed to update setting', variant: 'destructive' });
+      toast({ title: 'Error al actualizar', variant: 'destructive' });
     }
   };
 
@@ -58,6 +58,15 @@ const SettingsPanel = ({ settings, updateSetting }: { settings: AppSetting[] | u
     { key: 'premium_currency', label: 'Currency Code', type: 'text' },
     { key: 'premium_currency_symbol', label: 'Currency Symbol', type: 'text' },
     { key: 'premium_checkout_url', label: 'Checkout URL', type: 'url' },
+    { key: 'stripe_publishable_key', label: 'Stripe Publishable Key', type: 'text' },
+    { key: 'stripe_secret_key', label: 'Stripe Secret Key', type: 'secret' },
+  ];
+
+  const productTiers = [
+    { key: 'tier_solo_aura_price', label: 'Solo Aura (€350)', type: 'number' },
+    { key: 'tier_binary_essence_price', label: 'Binary Essence (€600)', type: 'number' },
+    { key: 'tier_monolith_empire_price', label: 'Monolith Empire (€5000)', type: 'number' },
+    { key: 'tier_ai_sales_master_price', label: 'AI Sales Master (€1500)', type: 'number' },
   ];
 
   const mailchimpSettings = [
@@ -117,14 +126,28 @@ const SettingsPanel = ({ settings, updateSetting }: { settings: AppSetting[] | u
 
   return (
     <div className="space-y-6">
+      {/* Product Tiers */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-[#800020]">
+            <Sparkles className="w-5 h-5" />
+            Niveles de Licencia (Precios)
+          </CardTitle>
+          <CardDescription>Configura los precios para los 4 niveles de producto.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {productTiers.map(renderSettingRow)}
+        </CardContent>
+      </Card>
+
       {/* Premium Configuration */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <DollarSign className="w-5 h-5" />
-            Premium Configuration
+            Configuración Stripe & Pagos
           </CardTitle>
-          <CardDescription>Configure pricing and checkout for premium reports</CardDescription>
+          <CardDescription>Configura las llaves de Stripe y la pasarela de pago.</CardDescription>
         </CardHeader>
         <CardContent>
           {premiumSettings.map(renderSettingRow)}
