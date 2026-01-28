@@ -150,7 +150,7 @@ export const NumerologyCalculator = () => {
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 gold-accent" />
-            <span className="font-serif text-sm font-medium">
+            <span className="font-serif text-sm font-medium cursor-pointer" onClick={() => window.location.href = '/pricing'}>
               {getContentValue(dynamicContent, 'app_name', appConfig.branding.appName)}
             </span>
           </div>
