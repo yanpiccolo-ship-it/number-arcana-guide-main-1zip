@@ -29,7 +29,7 @@ const PartnerPanel = () => {
     if (settings) {
       setFormData({
         title: settings.find(s => s.setting_key === 'branding_app_name')?.setting_value || '',
-        description: '', // We don't have a specific description setting yet, could add it
+        description: settings.find(s => s.setting_key === 'branding_description')?.setting_value || '',
         price: settings.find(s => s.setting_key === 'premium_price')?.setting_value || '',
         currency: settings.find(s => s.setting_key === 'premium_currency')?.setting_value || '',
         url: settings.find(s => s.setting_key === 'premium_checkout_url')?.setting_value || ''
@@ -50,6 +50,7 @@ const PartnerPanel = () => {
     try {
       await Promise.all([
         updateSetting.mutateAsync({ key: 'branding_app_name', value: formData.title }),
+        updateSetting.mutateAsync({ key: 'branding_description', value: formData.description }),
         updateSetting.mutateAsync({ key: 'premium_price', value: formData.price }),
         updateSetting.mutateAsync({ key: 'premium_currency', value: formData.currency }),
         updateSetting.mutateAsync({ key: 'premium_checkout_url', value: formData.url }),
