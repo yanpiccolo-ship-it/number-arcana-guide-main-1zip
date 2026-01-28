@@ -52,10 +52,18 @@ const Pricing = () => {
   const handlePurchase = (tierId: string) => {
     // In a real implementation, this would call a Supabase function to create a Stripe session
     console.log(`Starting purchase for ${tierId}`);
-    // For now, we redirect to a placeholder or the checkout URL in settings if exists
-    const checkoutUrl = settings?.find(s => s.setting_key === 'premium_checkout_url')?.setting_value;
+    
+    // We map tiers to Stripe Payment Links (placeholders for now)
+    const paymentLinks: Record<string, string> = {
+      'solo_aura': 'https://buy.stripe.com/test_solo_aura',
+      'binary_essence': 'https://buy.stripe.com/test_binary_essence',
+      'ai_sales_master': 'https://buy.stripe.com/test_ai_sales_master',
+      'monolith_empire': 'https://buy.stripe.com/test_monolith_empire'
+    };
+
+    const checkoutUrl = paymentLinks[tierId];
     if (checkoutUrl) {
-      window.location.href = checkoutUrl;
+      window.open(checkoutUrl, '_blank');
     } else {
       alert('Configuración de pago en proceso. Contacte al administrador.');
     }

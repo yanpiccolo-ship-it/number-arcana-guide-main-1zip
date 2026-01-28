@@ -306,20 +306,20 @@ const Admin = () => {
                   Add Content
                 </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="max-w-2xl">
                 <DialogHeader>
                   <DialogTitle>Add New Content</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4 py-4">
-                  <div className="space-y-2">
-                    <Label>Content Key</Label>
-                    <Input
-                      placeholder="e.g., hero_title"
-                      value={newContent.content_key}
-                      onChange={(e) => setNewContent({ ...newContent, content_key: e.target.value })}
-                    />
-                  </div>
                   <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label>Content Key</Label>
+                      <Input
+                        placeholder="e.g., hero_title"
+                        value={newContent.content_key}
+                        onChange={(e) => setNewContent({ ...newContent, content_key: e.target.value })}
+                      />
+                    </div>
                     <div className="space-y-2">
                       <Label>Type</Label>
                       <Select
@@ -336,22 +336,22 @@ const Admin = () => {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div className="space-y-2">
-                      <Label>Language</Label>
-                      <Select
-                        value={newContent.language}
-                        onValueChange={(v) => setNewContent({ ...newContent, language: v })}
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {LANGUAGES.map(lang => (
-                            <SelectItem key={lang.value} value={lang.value}>{lang.label}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Language</Label>
+                    <Select
+                      value={newContent.language}
+                      onValueChange={(v) => setNewContent({ ...newContent, language: v })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {LANGUAGES.map(lang => (
+                          <SelectItem key={lang.value} value={lang.value}>{lang.label}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div className="space-y-2">
                     <Label>Content Value</Label>
@@ -359,7 +359,7 @@ const Admin = () => {
                       placeholder="Enter the content..."
                       value={newContent.content_value}
                       onChange={(e) => setNewContent({ ...newContent, content_value: e.target.value })}
-                      rows={4}
+                      rows={6}
                     />
                   </div>
                   <div className="space-y-2">
