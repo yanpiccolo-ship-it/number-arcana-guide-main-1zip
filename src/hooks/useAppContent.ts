@@ -54,7 +54,7 @@ export const useUpdateContent = () => {
   
   return useMutation({
     mutationFn: async ({ id, content_value }: { id: string; content_value: string }) => {
-      // Usar match() con id y select() sin single() para evitar errores 406
+      // Usar eq() con id y select() sin single() para evitar errores 406
       const { data, error } = await supabase
         .from('app_content')
         .update({ content_value, updated_at: new Date().toISOString() })
