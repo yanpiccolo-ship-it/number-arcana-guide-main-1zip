@@ -54,15 +54,21 @@ export const useUpdateContent = () => {
   
   return useMutation({
     mutationFn: async ({ id, content_value }: { id: string; content_value: string }) => {
+      // Usar match() con id y select() sin single() para evitar errores 406
       const { data, error } = await supabase
         .from('app_content')
-        .update({ content_value })
+        .update({ content_value, updated_at: new Date().toISOString() })
         .eq('id', id)
-        .select()
-        .single();
+        .select();
       
-      if (error) throw error;
-      return data;
+      if (error) {
+        console.error('Supabase update content error:', error);
+        throw error;
+      }
+      
+      // Retornamos el objeto actualizado
+      const updatedData = data?.[0] || { id, content_value };
+      return updatedData;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['app_content'] });
