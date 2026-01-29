@@ -57,8 +57,7 @@ export const useUpdateSetting = () => {
           throw error;
         }
         // Return first item or a mock object, avoid .single() to prevent 406 error
-        const result = data?.[0] || { id: existing.id, setting_key: key, setting_value: String(value) };
-        return result as AppSetting;
+        return (data?.[0] || { id: existing.id, setting_key: key, setting_value: String(value) }) as AppSetting;
       } else {
         // Insert new
         const { data, error } = await (supabase as any)
@@ -75,8 +74,7 @@ export const useUpdateSetting = () => {
           console.error('Supabase insert setting error:', error);
           throw error;
         }
-        const result = data?.[0] || { setting_key: key, setting_value: String(value) };
-        return result as AppSetting;
+        return (data?.[0] || { setting_key: key, setting_value: String(value) }) as AppSetting;
       }
     },
     onSuccess: () => {
