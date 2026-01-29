@@ -232,10 +232,12 @@ const Admin = () => {
 
   const handleSave = async (id: string) => {
     try {
+      console.log('Updating content:', id, editValue);
       await updateContent.mutateAsync({ id, content_value: editValue });
       toast({ title: 'Content updated successfully' });
       setEditingId(null);
     } catch (error) {
+      console.error('Update error:', error);
       toast({ title: 'Failed to update content', variant: 'destructive' });
     }
   };

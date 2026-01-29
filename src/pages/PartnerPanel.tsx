@@ -26,7 +26,7 @@ const PartnerPanel = () => {
 
   // Sync settings to local state when loaded
   React.useEffect(() => {
-    if (settings) {
+    if (settings && settings.length > 0) {
       setFormData({
         title: settings.find(s => s.setting_key === 'branding_app_name')?.setting_value || '',
         description: settings.find(s => s.setting_key === 'branding_description')?.setting_value || '',
@@ -48,15 +48,24 @@ const PartnerPanel = () => {
     e.preventDefault();
     setIsSaving(true);
     try {
-      await Promise.all([
-        updateSetting.mutateAsync({ key: 'branding_app_name', value: formData.title }),
-        updateSetting.mutateAsync({ key: 'branding_description', value: formData.description }),
-        updateSetting.mutateAsync({ key: 'premium_price', value: formData.price }),
-        updateSetting.mutateAsync({ key: 'premium_currency', value: formData.currency }),
-        updateSetting.mutateAsync({ key: 'premium_checkout_url', value: formData.url }),
-      ]);
+      // Usar mutation simple para cada campo para mayor control
+      const updates = [
+        { key: 'branding_app_name', value: formData.title },
+        { key: 'branding_description', value: formData.description },
+        { key: 'premium_price', value: formData.price },
+        { key: 'premium_currency', value: formData.currency },
+        { key: 'premium_checkout_url', value: formData.url }
+      ];
+
+      for (const update of updates) {
+        if (update.value !== undefined) {
+          await updateSetting.mutateAsync(update);
+        }
+      }
+      
       toast.success('Configuración guardada correctamente');
     } catch (error) {
+      console.error('PartnerPanel save error:', error);
       toast.error('Error al guardar los cambios');
     } finally {
       setIsSaving(false);

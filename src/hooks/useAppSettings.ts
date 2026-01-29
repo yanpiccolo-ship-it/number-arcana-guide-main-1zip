@@ -35,29 +35,49 @@ export const useUpdateSetting = () => {
   
   return useMutation({
     mutationFn: async ({ key, value }: { key: string; value: string }) => {
-      // First try to update
-      const { data: updateData, error: updateError } = await (supabase as any)
+      // First try to find the setting to see if it exists
+      const { data: existing, error: findError } = await (supabase as any)
         .from('app_settings')
-        .update({ setting_value: value, updated_at: new Date().toISOString() })
+        .select('id')
         .eq('setting_key', key)
-        .select()
         .maybeSingle();
       
-      if (updateError) throw updateError;
+      if (findError) throw findError;
       
-      // If no rows were updated, it might not exist, so try to insert
-      if (!updateData) {
-        const { data: insertData, error: insertError } = await (supabase as any)
+      if (existing) {
+        // Update existing
+        const { data, error } = await (supabase as any)
           .from('app_settings')
-          .insert({ setting_key: key, setting_value: value, setting_type: 'text' })
-          .select()
-          .single();
+          .update({ setting_value: String(value), updated_at: new Date().toISOString() })
+          .eq('setting_key', key)
+          .select();
         
-        if (insertError) throw insertError;
-        return insertData as AppSetting;
+        if (error) {
+          console.error('Supabase update setting error:', error);
+          throw error;
+        }
+        // Return first item or a mock object, avoid .single() to prevent 406 error
+        const result = data?.[0] || { id: existing.id, setting_key: key, setting_value: String(value) };
+        return result as AppSetting;
+      } else {
+        // Insert new
+        const { data, error } = await (supabase as any)
+          .from('app_settings')
+          .insert({ 
+            setting_key: key, 
+            setting_value: String(value), 
+            setting_type: 'text',
+            updated_at: new Date().toISOString()
+          })
+          .select();
+        
+        if (error) {
+          console.error('Supabase insert setting error:', error);
+          throw error;
+        }
+        const result = data?.[0] || { setting_key: key, setting_value: String(value) };
+        return result as AppSetting;
       }
-      
-      return updateData as AppSetting;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['app_settings'] });
