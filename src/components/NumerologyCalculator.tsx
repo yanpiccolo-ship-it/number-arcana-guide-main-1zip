@@ -83,7 +83,7 @@ export const NumerologyCalculator = () => {
     return re.test(email);
   };
 
-  const handleCalculate = () => {
+  const handleCalculate = async () => {
     if (!fullName.trim() || !birthDay || !birthMonth || !birthYear || !email) {
       toast({
         title: getText('fillRequired'),
