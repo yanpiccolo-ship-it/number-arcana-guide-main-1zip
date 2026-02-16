@@ -22,9 +22,21 @@ export const appConfig = {
     enabled: true,
     currency: 'EUR',
     plans: {
-      esencia: { price: 0, type: 'free' },
-      accion: { price: 29, type: 'subscription' },
-      maestria: { price: 99, type: 'subscription' },
+      esencia: { 
+        price: 0, 
+        type: 'free',
+        features: ['Camino de Vida', 'Personalidad', 'Tarot básico']
+      },
+      accion: { 
+        price: 29, 
+        type: 'subscription',
+        features: ['5 Números Principales', 'Orientación de Carrera', 'Sincronización Universal']
+      },
+      maestria: { 
+        price: 99, 
+        type: 'subscription',
+        features: ['Desafíos Kármicos (13, 14, 16, 19)', 'Sueño Secreto', 'Meditaciones', 'IA ilimitada']
+      },
     }
   },
 
