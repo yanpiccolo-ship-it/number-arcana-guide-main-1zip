@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Language, translations } from '@/lib/translations';
 import { appConfig } from '@/lib/appConfig';
@@ -36,6 +37,7 @@ interface NumerologyResults {
 }
 
 export const NumerologyCalculator = () => {
+  const navigate = useNavigate();
   const [language, setLanguage] = useState<Language>('en');
   const [fullName, setFullName] = useState('');
   const [birthDay, setBirthDay] = useState('');

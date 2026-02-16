@@ -1,7 +1,9 @@
-import { Language, translations } from '@/lib/translations';
-import { AppContent, getContentValue } from '@/hooks/useAppContent';
-import { AppSetting, getSettingValue, getSettingNumber } from '@/hooks/useAppSettings';
-import { FileText, Sparkles, ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Language } from '@/lib/translations';
+import { AppContent } from '@/hooks/useAppContent';
+import { AppSetting } from '@/hooks/useAppSettings';
+import { Sparkles, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export interface PremiumUpsellProps {
   language: Language;
@@ -10,81 +12,22 @@ export interface PremiumUpsellProps {
 }
 
 export const PremiumUpsell = ({ language, dynamicContent, settings }: PremiumUpsellProps) => {
-  const staticT = translations[language];
+  const navigate = useNavigate();
   
-  // Get pricing from database settings
-  const price = getSettingNumber(settings, 'premium_price', 9.99);
-  const currency = getSettingValue(settings, 'premium_currency', 'USD');
-  const currencySymbol = getSettingValue(settings, 'premium_currency_symbol', '$');
-  const checkoutUrl = getSettingValue(settings, 'premium_checkout_url', 'https://your-shop.com/checkout');
-
-  // Helper to get text - tries database first, falls back to static
-  const getText = (key: string): string => {
-    if (dynamicContent) {
-      const dbValue = getContentValue(dynamicContent, key, '');
-      if (dbValue) return dbValue;
-    }
-    return staticT[key] || key;
-  };
-
-  const handleBuyClick = () => {
-    window.open(checkoutUrl, '_blank', 'noopener,noreferrer');
-  };
-
   return (
-    <div className="mt-4 relative overflow-hidden rounded-lg border border-border" style={{ backgroundColor: '#EBEBEB' }}>
-      <div className="p-4 md:p-6">
-        <div className="flex items-start gap-4">
-          <div className="flex-shrink-0 p-2 rounded-lg bg-white border border-border">
-            <FileText className="w-6 h-6 text-foreground" />
-          </div>
-          
-          <div className="flex-1 space-y-2">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-foreground" />
-              <h3 className="font-serif text-lg md:text-xl font-medium text-foreground">
-                {getText('premiumTitle')}
-              </h3>
-            </div>
-            
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              {getText('premiumDescription')}
-            </p>
-            
-            <ul className="text-xs text-muted-foreground space-y-1 mt-2">
-              <li className="flex items-center gap-2">
-                <ChevronRight className="w-3 h-3 text-foreground" />
-                {getText('premiumFeature1')}
-              </li>
-              <li className="flex items-center gap-2">
-                <ChevronRight className="w-3 h-3 text-foreground" />
-                {getText('premiumFeature2')}
-              </li>
-              <li className="flex items-center gap-2">
-                <ChevronRight className="w-3 h-3 text-foreground" />
-                {getText('premiumFeature3')}
-              </li>
-            </ul>
-          </div>
-        </div>
-        
-        <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-border">
-          <div className="text-center sm:text-left">
-            <span className="text-xs text-muted-foreground uppercase tracking-wider">{getText('premiumOnlyFor')}</span>
-            <p className="text-2xl font-serif font-bold text-foreground">
-              {currencySymbol}{price} <span className="text-sm font-normal text-muted-foreground">{currency}</span>
-            </p>
-          </div>
-          
-          <button
-            onClick={handleBuyClick}
-            className="w-full sm:w-auto bg-foreground text-background font-medium px-6 py-2.5 rounded-lg flex items-center justify-center gap-2 hover:bg-foreground/90 transition-colors"
-          >
-            <FileText className="w-4 h-4" />
-            {getText('buyFullReport')}
-          </button>
-        </div>
-      </div>
+    <div className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-[#800020]/10 to-amber-50 border border-[#800020]/20 text-center fade-in">
+      <Sparkles className="w-8 h-8 mx-auto mb-4 text-[#800020]" />
+      <h3 className="font-serif text-xl mb-2">Desbloquea tu Potencial Completo</h3>
+      <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">
+        Obtén acceso a la Maestría: Desafíos Kármicos, Sueño Secreto, meditaciones personalizadas e IA ilimitada.
+      </p>
+      <Button 
+        onClick={() => navigate('/pricing')}
+        className="bg-[#800020] hover:bg-[#600018] text-white px-8 py-6 rounded-full text-lg shadow-lg hover:shadow-xl transition-all flex items-center gap-2 mx-auto"
+      >
+        Ver Planes de Membresía
+        <ArrowRight className="w-5 h-5" />
+      </Button>
     </div>
   );
 };
