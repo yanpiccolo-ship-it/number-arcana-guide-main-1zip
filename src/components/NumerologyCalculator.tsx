@@ -100,6 +100,20 @@ export const NumerologyCalculator = () => {
 
     setIsCalculating(true);
 
+    // Capture Lead / Register User for "Esencia" Plan
+    try {
+      const { error: authError } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          shouldCreateUser: true,
+          emailRedirectTo: window.location.origin,
+        },
+      });
+      if (authError) console.error('Lead capture error:', authError);
+    } catch (err) {
+      console.error('Lead capture failed:', err);
+    }
+
     // Calculate numerology results
     const destiny = calculateDestinyNumber(fullName);
     const soul = calculateSoulNumber(fullName);
