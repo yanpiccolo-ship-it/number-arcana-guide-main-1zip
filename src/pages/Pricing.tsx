@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Check, Sparkles, Zap, Shield, Crown } from 'lucide-react';
+import { Check, Sparkles, Zap, Shield } from 'lucide-react';
 import { useAppSettings, getSettingNumber } from '@/hooks/useAppSettings';
 
 const Pricing = () => {
@@ -11,54 +11,47 @@ const Pricing = () => {
 
   const tiers = [
     {
-      id: 'solo_aura',
-      name: 'Solo Aura',
-      price: getSettingNumber(settings, 'tier_solo_aura_price', 350),
-      description: 'Licencia Única - Emprendedor',
-      features: ['1 Dominio autorizado', 'Calculadora completa', 'Soporte estándar', 'Actualizaciones básicas'],
+      id: 'esencia',
+      name: 'Esencia',
+      price: 0,
+      description: 'Diagnóstico Básico',
+      features: ['Camino de Vida', 'Personalidad', 'Tarot básico'],
       icon: <Zap className="w-6 h-6 text-blue-500" />,
       color: 'border-blue-200'
     },
     {
-      id: 'binary_essence',
-      name: 'Binary Essence',
-      price: getSettingNumber(settings, 'tier_binary_essence_price', 600),
-      description: 'Pack Duo - Colaboración',
-      features: ['2 Dominios autorizados', 'Branding personalizado', 'Soporte prioritario', 'Panel de socio'],
+      id: 'accion',
+      name: 'Acción',
+      price: getSettingNumber(settings, 'tier_accion_price', 29),
+      description: 'Ejecución y Orientación',
+      features: ['5 Números Principales', 'Orientación de Carrera', 'Sincronización Universal'],
       icon: <Shield className="w-6 h-6 text-purple-500" />,
-      color: 'border-purple-200'
+      color: 'border-purple-200',
+      period: '/ mes'
     },
     {
-      id: 'ai_sales_master',
-      name: 'AI Sales Master',
-      price: getSettingNumber(settings, 'tier_ai_sales_master_price', 1500),
-      description: 'El Agente de Ventas Inteligente',
-      features: ['Módulo AI Sales Master', 'Entrenamiento IA personalizado', 'Integración WhatsApp/Email', 'Automatización de leads'],
+      id: 'maestria',
+      name: 'Maestría',
+      price: getSettingNumber(settings, 'tier_maestria_price', 99),
+      description: 'Transformación Total',
+      features: ['Desafíos Kármicos (13, 14, 16, 19)', 'Sueño Secreto', 'Meditaciones', 'IA ilimitada'],
       icon: <Sparkles className="w-6 h-6 text-[#800020]" />,
       color: 'border-[#800020]',
-      highlight: true
-    },
-    {
-      id: 'monolith_empire',
-      name: 'Monolith Empire',
-      price: getSettingNumber(settings, 'tier_monolith_empire_price', 5000),
-      description: 'Franquicias - Escala Total',
-      features: ['Dominios ilimitados', 'Marca Blanca (White Label)', 'Control total de API', 'Soporte 24/7 dedicado'],
-      icon: <Crown className="w-6 h-6 text-amber-500" />,
-      color: 'border-amber-200'
+      highlight: true,
+      period: '/ mes'
     }
   ];
 
   const handlePurchase = (tierId: string) => {
-    // In a real implementation, this would call a Supabase function to create a Stripe session
+    if (tierId === 'esencia') {
+      navigate('/auth?mode=signup');
+      return;
+    }
     console.log(`Starting purchase for ${tierId}`);
     
-    // We map tiers to Stripe Payment Links (placeholders for now)
     const paymentLinks: Record<string, string> = {
-      'solo_aura': 'https://buy.stripe.com/test_solo_aura',
-      'binary_essence': 'https://buy.stripe.com/test_binary_essence',
-      'ai_sales_master': 'https://buy.stripe.com/test_ai_sales_master',
-      'monolith_empire': 'https://buy.stripe.com/test_monolith_empire'
+      'accion': 'https://buy.stripe.com/test_accion_monthly',
+      'maestria': 'https://buy.stripe.com/test_maestria_monthly'
     };
 
     const checkoutUrl = paymentLinks[tierId];
@@ -92,7 +85,7 @@ const Pricing = () => {
             <CardContent className="flex-1">
               <div className="text-4xl font-bold mb-6">
                 €{tier.price}
-                <span className="text-sm font-normal text-gray-500"> / pago único</span>
+                <span className="text-sm font-normal text-gray-500"> {tier.period || '/ acceso'}</span>
               </div>
               <ul className="space-y-3">
                 {tier.features.map((feature, idx) => (
@@ -108,7 +101,7 @@ const Pricing = () => {
                 onClick={() => handlePurchase(tier.id)}
                 className={`w-full py-6 text-lg ${tier.highlight ? 'bg-[#800020] hover:bg-[#600018]' : 'bg-black hover:bg-gray-800'}`}
               >
-                Adquirir Ahora
+                {tier.id === 'esencia' ? 'Empezar Gratis' : 'Suscribirse Ahora'}
               </Button>
             </CardFooter>
           </Card>
