@@ -16,14 +16,16 @@ export const appConfig = {
   },
 
   // ============================================
-  // PREMIUM PDF PRICING (Dynamic)
+  // MEMBERSHIP CONFIGURATION
   // ============================================
-  premium: {
+  membership: {
     enabled: true,
-    price: 9.99,                      // Price as a number - change as needed
-    currency: 'USD',                  // Currency code: 'USD', 'EUR', 'GBP', etc.
-    currencySymbol: '$',              // Currency symbol: '$', '€', '£', etc.
-    checkoutUrl: 'https://your-shop.com/checkout/numerology-report',
+    currency: 'EUR',
+    plans: {
+      esencia: { price: 0, type: 'free' },
+      accion: { price: 29, type: 'subscription' },
+      maestria: { price: 99, type: 'subscription' },
+    }
   },
 
   // ============================================
