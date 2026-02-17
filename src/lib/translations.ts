@@ -102,6 +102,9 @@ export const translations: Record<Language, Record<string, string>> = {
     premiumOnlyFor: 'Desde solo',
     buyFullReport: 'Ver Planes de Membresía',
     basicResults: 'Lectura Básica Gratuita',
+    fullReportTitle: 'Informe Numerológico Completo',
+    fullReportPrice: '59,99 €',
+    fullReportDelivery: 'Entrega manual en minutos vía email tras el pago.',
   },
   it: {
     title: 'Rapporto Numerologico',

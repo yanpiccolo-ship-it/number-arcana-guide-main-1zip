@@ -104,14 +104,30 @@ export const NumerologyCalculator = () => {
 
     // Capture Lead / Register User for "Esencia" Plan
     try {
-      const { error: authError } = await supabase.auth.signInWithOtp({
+      const { data: authData, error: authError } = await supabase.auth.signInWithOtp({
         email,
         options: {
           shouldCreateUser: true,
           emailRedirectTo: window.location.origin,
+          data: {
+            full_name: fullName,
+            birth_date: `${birthYear}-${birthMonth}-${birthDay}`,
+            registration_source: 'calculator_lead'
+          }
         },
       });
       if (authError) console.error('Lead capture error:', authError);
+      
+      // Store in profiles for Dashboard visibility
+      if (authData?.user) {
+        const { error: profileError } = await supabase.from('profiles').upsert({
+          id: authData.user.id,
+          full_name: fullName,
+          email: email,
+          updated_at: new Date().toISOString(),
+        });
+        if (profileError) console.error('Profile update error:', profileError);
+      }
     } catch (err) {
       console.error('Lead capture failed:', err);
     }

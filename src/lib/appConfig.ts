@@ -37,6 +37,11 @@ export const appConfig = {
         type: 'subscription',
         features: ['Desafíos Kármicos (13, 14, 16, 19)', 'Sueño Secreto', 'Meditaciones', 'IA ilimitada']
       },
+      informe_completo: {
+        price: 59.99,
+        type: 'one-time',
+        features: ['Camino de Vida', 'Ciclos', 'Financiera', 'Espiritual', 'PDF 40-60 págs']
+      }
     }
   },
 
