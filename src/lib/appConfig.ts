@@ -22,21 +22,6 @@ export const appConfig = {
     enabled: true,
     currency: 'EUR',
     plans: {
-      esencia: { 
-        price: 0, 
-        type: 'free',
-        features: ['Camino de Vida', 'Personalidad', 'Tarot básico']
-      },
-      accion: { 
-        price: 29, 
-        type: 'subscription',
-        features: ['5 Números Principales', 'Orientación de Carrera', 'Sincronización Universal']
-      },
-      maestria: { 
-        price: 99, 
-        type: 'subscription',
-        features: ['Desafíos Kármicos (13, 14, 16, 19)', 'Sueño Secreto', 'Meditaciones', 'IA ilimitada']
-      },
       informe_completo: {
         price: 59.99,
         type: 'one-time',
@@ -47,6 +32,21 @@ export const appConfig = {
           'Compatibilidad y Finanzas',
           'PDF 40-60 páginas'
         ]
+      },
+      personal: { 
+        price: 29, 
+        type: 'subscription',
+        features: ['Plan estratégico PDF', 'Calendario semanal', 'Ejercicios prácticos', 'Activador mental', 'Informe evolutivo']
+      },
+      accion: { 
+        price: 49, 
+        type: 'subscription',
+        features: ['Todo lo del Plan Personal', 'Foco semanal', 'Plan de acción 5 pasos', 'Desbloqueo mental', 'Mini-reporte', 'Hoja de implementación']
+      },
+      profesional: { 
+        price: 149, 
+        type: 'subscription',
+        features: ['Plan mensual estratégico', 'Seguimiento semanal', 'Lecturas personalizadas', 'Cursos y material extra', 'Sistema de Booking', 'Panel profesional']
       }
     }
   },
