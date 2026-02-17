@@ -122,7 +122,7 @@ export const NumerologyCalculator = () => {
       // Store in 'user_roles' or metadata-accessible profiles for the Dashboard
       // Note: profiles table check if it exists in schema
       if (authData?.user) {
-         console.log('User captured as lead:', authData.user.id);
+         console.log('User captured as lead:', authData.user);
       }
     } catch (err) {
       console.error('Lead capture failed:', err);
