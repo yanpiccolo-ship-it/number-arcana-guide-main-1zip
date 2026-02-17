@@ -119,11 +119,11 @@ const Pricing = () => {
             <CardFooter className="flex flex-col gap-4">
               <Button 
                 onClick={() => handlePurchase(tier.id)}
-                className={`w-full py-6 text-lg transition-all duration-300 ${
+                className={`w-full py-6 text-lg transition-all duration-300 font-bold shadow-md ${
                   tier.highlight 
                     ? 'bg-[#800020] hover:bg-[#600018] text-white' 
                     : tier.id === 'informe_completo' 
-                      ? 'bg-[#D4AF37] hover:bg-[#C5A028] text-black font-bold shadow-lg' 
+                      ? 'bg-[#D4AF37] hover:bg-[#C5A028] text-black shadow-[0_4px_10px_rgba(212,175,55,0.3)]' 
                       : 'bg-black hover:bg-gray-800 text-white'
                 }`}
               >

@@ -40,7 +40,13 @@ export const appConfig = {
       informe_completo: {
         price: 59.99,
         type: 'one-time',
-        features: ['Camino de Vida', 'Ciclos', 'Financiera', 'Espiritual', 'PDF 40-60 págs']
+        features: [
+          'Camino de Vida y Propósito',
+          'Alma y Personalidad',
+          'Ciclos, Pináculos y Desafíos',
+          'Compatibilidad y Finanzas',
+          'PDF 40-60 páginas'
+        ]
       }
     }
   },
