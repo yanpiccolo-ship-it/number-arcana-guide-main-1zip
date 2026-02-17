@@ -125,7 +125,7 @@ const Pricing = () => {
                     : 'bg-black hover:bg-gray-900 text-white'
                 }`}
               >
-                {tier.id === 'informe_completo' ? `Comprar Informe – ${tier.price} €` : 'Suscribirse Ahora'}
+                {tier.id === 'informe_completo' ? (t.fullReportPrice ? `Comprar Informe – ${t.fullReportPrice}` : `Comprar Informe – ${tier.price} €`) : 'Suscribirse Ahora'}
               </Button>
               {tier.footerNote && (
                 <p className="text-[10px] text-muted-foreground text-center italic leading-relaxed px-1">
