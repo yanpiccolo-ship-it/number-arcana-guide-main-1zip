@@ -33,34 +33,35 @@ const Pricing = () => {
         'Mini guía de 30 días',
         'PDF de 40-60 páginas'
       ],
-      icon: <FileText className="w-6 h-6 text-amber-600" />,
+      icon: <FileText className="w-6 h-6 text-[#D4AF37]" />,
       color: 'border-amber-200 shadow-sm',
       footerNote: t.fullReportDelivery || '💡 Forma de entrega: Una vez confirmado tu pago, recibirás el Informe Numerológico Completo en el email que registraste. La entrega se realiza de forma manual, generalmente en minutos.'
     },
     {
-      id: 'esencia',
-      name: 'Plan Personal Inteligente',
-      price: 0,
-      description: 'Claridad y dirección mensual',
+      id: 'personal',
+      name: t.personalPlan || 'Plan Personal Inteligente',
+      price: 29,
+      description: t.personalDescription || 'Claridad y dirección mensual',
       features: ['Plan estratégico PDF', 'Calendario semanal', 'Ejercicios prácticos', 'Activador mental', 'Informe evolutivo'],
       icon: <Zap className="w-6 h-6 text-gray-400" />,
-      color: 'border-gray-200'
+      color: 'border-gray-200',
+      period: '/ mes'
     },
     {
       id: 'accion',
-      name: 'Sistema de Acción Continua',
-      price: getSettingNumber(settings, 'tier_accion_price', 29),
-      description: 'Estructura y disciplina semanal',
+      name: t.actionPlan || 'Sistema de Acción Continua',
+      price: 49,
+      description: t.actionDescription || 'Estructura y disciplina semanal',
       features: ['Todo lo del Plan Personal', 'Foco semanal', 'Plan de acción 5 pasos', 'Desbloqueo mental', 'Mini-reporte', 'Hoja de implementación'],
       icon: <Shield className="w-6 h-6 text-gray-400" />,
       color: 'border-gray-200',
       period: '/ mes'
     },
     {
-      id: 'maestria',
-      name: 'Plan Profesional',
-      price: getSettingNumber(settings, 'tier_maestria_price', 99),
-      description: 'Para Coaches y Consultores',
+      id: 'profesional',
+      name: t.proPlan || 'Plan Profesional',
+      price: 149,
+      description: t.proDescription || 'Para Coaches y Consultores',
       features: ['Plan mensual estratégico', 'Seguimiento semanal', 'Lecturas personalizadas', 'Cursos y material extra', 'Sistema de Booking', 'Panel profesional'],
       icon: <Sparkles className="w-6 h-6 text-gray-400" />,
       color: 'border-gray-200',
@@ -69,14 +70,10 @@ const Pricing = () => {
   ];
 
   const handlePurchase = (tierId: string) => {
-    if (tierId === 'esencia') {
-      navigate('/auth?mode=signup');
-      return;
-    }
-    
     const paymentLinks: Record<string, string> = {
+      'personal': 'https://buy.stripe.com/test_personal_monthly',
       'accion': 'https://buy.stripe.com/test_accion_monthly',
-      'maestria': 'https://buy.stripe.com/test_maestria_monthly',
+      'profesional': 'https://buy.stripe.com/test_profesional_monthly',
       'informe_completo': 'https://revolut.me/yanpiccolo'
     };
 
@@ -103,12 +100,12 @@ const Pricing = () => {
             <CardHeader className="pb-4">
               <div className="mb-2 opacity-80">{tier.icon}</div>
               <CardTitle className="font-serif text-xl leading-tight">{tier.name}</CardTitle>
-              <CardDescription className="font-sans text-sm">{tier.description}</CardDescription>
+              <CardDescription className="font-sans text-xs text-muted-foreground">{tier.description}</CardDescription>
             </CardHeader>
             <CardContent className="flex-1 pb-6">
               <div className="text-3xl font-bold mb-4">
                 €{tier.price}
-                <span className="text-xs font-normal text-gray-500 ml-1"> {tier.period || '/ acceso'}</span>
+                {tier.period && <span className="text-xs font-normal text-gray-500 ml-1"> {tier.period}</span>}
               </div>
               <ul className="space-y-2.5">
                 {tier.features.map((feature, idx) => (
@@ -122,13 +119,13 @@ const Pricing = () => {
             <CardFooter className="flex flex-col gap-3 pb-6">
               <Button 
                 onClick={() => handlePurchase(tier.id)}
-                className={`w-full py-5 text-sm transition-all duration-300 font-medium rounded-lg ${
+                className={`w-full py-5 text-sm transition-all duration-300 font-medium rounded-lg border-0 shadow-sm ${
                   tier.id === 'informe_completo' 
-                    ? 'bg-[#D4AF37] hover:bg-[#C5A028] text-black shadow-sm' 
+                    ? 'bg-[#D4AF37] hover:bg-[#C5A028] text-black' 
                     : 'bg-black hover:bg-gray-900 text-white'
                 }`}
               >
-                {tier.id === 'esencia' ? 'Empezar Gratis' : tier.id === 'informe_completo' ? `Comprar Informe – ${tier.price} €` : 'Suscribirse Ahora'}
+                {tier.id === 'informe_completo' ? `Comprar Informe – ${tier.price} €` : 'Suscribirse Ahora'}
               </Button>
               {tier.footerNote && (
                 <p className="text-[10px] text-muted-foreground text-center italic leading-relaxed px-1">
