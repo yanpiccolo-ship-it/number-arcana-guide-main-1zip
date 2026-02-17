@@ -137,8 +137,8 @@ const Pricing = () => {
         ))}
       </div>
 
-      <footer className="mt-16 text-center text-gray-300 font-sans text-xs">
-        Design by Brand Agency
+      <footer className="mt-16 text-center text-gray-300 font-sans text-[10px] italic tracking-wider">
+        Design by Just Bee Brand Agency
       </footer>
     </div>
   );
