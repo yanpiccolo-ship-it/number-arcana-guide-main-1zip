@@ -153,6 +153,7 @@ export const NumerologyCalculator = () => {
           name: fullName,
           numerologyResult: destiny.finalNumber,
           archetypeResult: archetypeString,
+          language: language // Pass selected language
         },
       }).catch(err => console.error('Mailchimp subscription error:', err));
     }
@@ -372,7 +373,7 @@ export const NumerologyCalculator = () => {
       {/* Footer Branding */}
       <footer className="mt-8 pt-6 border-t border-border/30 text-center pb-4">
         <p className="text-[10px] text-muted-foreground font-serif italic tracking-wider">
-          Design by Just Bee Brand Agency
+          Design by Brand Agency
         </p>
       </footer>
     </div>
