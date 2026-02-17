@@ -56,8 +56,8 @@ const Pricing = () => {
         'Mini guía de 30 días',
         'PDF de 40-60 páginas'
       ],
-      icon: <FileText className="w-6 h-6 text-amber-500" />,
-      color: 'border-amber-500',
+      icon: <FileText className="w-6 h-6 text-amber-600" />,
+      color: 'border-amber-600 shadow-[0_0_15px_rgba(217,119,6,0.1)]',
       footerNote: '💡 Forma de entrega: Una vez confirmado tu pago, recibirás el Informe Numerológico Completo en el email que registraste. La entrega se realiza de forma manual, generalmente en minutos.'
     }
   ];
@@ -119,12 +119,18 @@ const Pricing = () => {
             <CardFooter className="flex flex-col gap-4">
               <Button 
                 onClick={() => handlePurchase(tier.id)}
-                className={`w-full py-6 text-lg ${tier.highlight ? 'bg-[#800020] hover:bg-[#600018]' : tier.id === 'informe_completo' ? 'bg-amber-500 hover:bg-amber-600' : 'bg-black hover:bg-gray-800'}`}
+                className={`w-full py-6 text-lg transition-all duration-300 ${
+                  tier.highlight 
+                    ? 'bg-[#800020] hover:bg-[#600018] text-white' 
+                    : tier.id === 'informe_completo' 
+                      ? 'bg-[#D4AF37] hover:bg-[#C5A028] text-black font-bold shadow-lg' 
+                      : 'bg-black hover:bg-gray-800 text-white'
+                }`}
               >
                 {tier.id === 'esencia' ? 'Empezar Gratis' : tier.id === 'informe_completo' ? 'Comprar Informe – 59,99 €' : 'Suscribirse Ahora'}
               </Button>
               {tier.footerNote && (
-                <p className="text-[10px] text-muted-foreground text-center italic">
+                <p className="text-[10px] text-muted-foreground text-center italic leading-relaxed px-2">
                   {tier.footerNote}
                 </p>
               )}
