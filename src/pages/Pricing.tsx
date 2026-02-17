@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Check, Sparkles, Zap, Shield } from 'lucide-react';
+import { Check, Sparkles, Zap, Shield, FileText } from 'lucide-react';
 import { useAppSettings, getSettingNumber } from '@/hooks/useAppSettings';
 
 const Pricing = () => {
@@ -39,6 +39,26 @@ const Pricing = () => {
       color: 'border-[#800020]',
       highlight: true,
       period: '/ mes'
+    },
+    {
+      id: 'informe_completo',
+      name: 'Informe Numerológico Completo',
+      price: 59.99,
+      description: 'El mapa más detallado de tu alma',
+      features: [
+        'Camino de Vida y Propósito',
+        'Alma y Personalidad',
+        'Ciclos de Vida, Pináculos y Desafíos',
+        'Compatibilidad Energética',
+        'Numerología Financiera y Espiritual',
+        'Proyección de 12 meses',
+        'Plan de Alineación Personalizado',
+        'Mini guía de 30 días',
+        'PDF de 40-60 páginas'
+      ],
+      icon: <FileText className="w-6 h-6 text-amber-500" />,
+      color: 'border-amber-500',
+      footerNote: '💡 Forma de entrega: Una vez confirmado tu pago, recibirás el Informe Numerológico Completo en el email que registraste. La entrega se realiza de forma manual, generalmente en minutos.'
     }
   ];
 
@@ -47,11 +67,11 @@ const Pricing = () => {
       navigate('/auth?mode=signup');
       return;
     }
-    console.log(`Starting purchase for ${tierId}`);
     
     const paymentLinks: Record<string, string> = {
       'accion': 'https://buy.stripe.com/test_accion_monthly',
-      'maestria': 'https://buy.stripe.com/test_maestria_monthly'
+      'maestria': 'https://buy.stripe.com/test_maestria_monthly',
+      'informe_completo': 'https://revolut.me/yanpiccolo'
     };
 
     const checkoutUrl = paymentLinks[tierId];
@@ -96,13 +116,18 @@ const Pricing = () => {
                 ))}
               </ul>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex flex-col gap-4">
               <Button 
                 onClick={() => handlePurchase(tier.id)}
-                className={`w-full py-6 text-lg ${tier.highlight ? 'bg-[#800020] hover:bg-[#600018]' : 'bg-black hover:bg-gray-800'}`}
+                className={`w-full py-6 text-lg ${tier.highlight ? 'bg-[#800020] hover:bg-[#600018]' : tier.id === 'informe_completo' ? 'bg-amber-500 hover:bg-amber-600' : 'bg-black hover:bg-gray-800'}`}
               >
-                {tier.id === 'esencia' ? 'Empezar Gratis' : 'Suscribirse Ahora'}
+                {tier.id === 'esencia' ? 'Empezar Gratis' : tier.id === 'informe_completo' ? 'Comprar Informe – 59,99 €' : 'Suscribirse Ahora'}
               </Button>
+              {tier.footerNote && (
+                <p className="text-[10px] text-muted-foreground text-center italic">
+                  {tier.footerNote}
+                </p>
+              )}
             </CardFooter>
           </Card>
         ))}
